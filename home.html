@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOME</title>
+</head>
+<body>
+    <center>
+    <div id="header">
+        <a href="home.html">Home</a>
+        <a href="search.html">Search</a>
+        <br><br><br>
+        <button onclick="getData()">Show Data</button>
+    </div>
+    <div id="cont"></div>
+</center>
+</body>
+<script>
+    localStorage.clear()
+    var d1 = document.getElementById("cont");
+    async function getData(){
+        var res = await fetch("https://api.openbrewerydb.org/breweries/");
+        let data = await res.json();
+        console.log(data);
+        display(data);
+    }
+    function display(data){
+        var div1 = document.createElement("div");
+        var t1 = document.createElement("table");
+        var tr1 = document.createElement("tr");
+        var th1 = document.createElement("th");
+        th1.textContent = "Name";
+        var th2 = document.createElement("th");
+        th2.textContent = "Brewery Type";
+        var th3 = document.createElement("th");
+        th3.textContent = "city";
+        var th4 = document.createElement("th");
+        th4.textContent = "state";
+        tr1.append(th1,th2,th3,th4);
+        t1.append(tr1);
+        for(var i=0;i<data.length;i++){
+            var tr2 = document.createElement("tr");
+            var td5 = document.createElement("td");
+            td5.textContent = data[i].name;
+            var td6 = document.createElement("td");
+            td6.textContent = data[i].brewery_type;
+            var td7 = document.createElement("td");
+            td7.textContent = data[i].city;
+            var td8 = document.createElement("td");
+            td8.textContent = data[i].state;
+            var a = document.createElement("a");
+            a.setAttribute("href","detail.html")
+            var btn = document.createElement("button");
+            btn.textContent = "More Details"
+            btn.setAttribute("onclick","more('"+data[i].id+"')");
+            var td9 = document.createElement("td");
+            a.append(btn);
+            td9.append(a);
+            tr2.append(td5,td6,td7,td8,td9);
+            t1.append(tr2);
+        }
+        div1.append(t1);
+        d1.append(div1);
+    }
+    function more(id){
+        localStorage.setItem('ID', JSON.stringify(id));
+    }
+</script>
+</html>

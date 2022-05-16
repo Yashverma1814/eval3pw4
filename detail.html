@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DETAIL</title>
+</head>
+<body>
+    <center>
+    <button onclick="getData()">Show Detail</button>
+    <div id="con"></div>
+    </center>
+</body>
+<script>
+    var id = JSON.parse(localStorage.getItem('ID'));
+    console.log(id);
+    var d1 = document.getElementById("con");
+    async function getData(){
+        var res = await fetch("https://api.openbrewerydb.org/breweries/"+id);
+        let data = await res.json();
+        console.log(data);
+        display(data);
+    }
+    function display(data){
+        var div1 = document.createElement("div");
+        var h1 = document.createElement("h3");
+        h1.textContent = "Name - "+data.name;
+        var h2 = document.createElement("h3");
+        h2.textContent = "City - "+data.city;
+        var h3 = document.createElement("h3");
+        h3.textContent = "State - "+data.state;
+        var h4 = document.createElement("h3");
+        h4.textContent = "Country - "+data.country;
+        var h5 = document.createElement("h3");
+        h5.textContent = "Brewery type - "+data.brewery_type;
+        var h6 = document.createElement("h3");
+        h6.textContent = "Phone - "+data.phone;
+        div1.append(h1,h2,h3,h4,h5,h6);
+        d1.append(div1);
+    }
+</script>
+</html>
